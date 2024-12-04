@@ -16,13 +16,14 @@
 
 def check_letter():
     letter = input('Please, type a letter:')
-    vowels = ['a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U']
-    print(letter)
-    print(type(letter))
-    if letter in vowels:
-        print(f'The letter {letter} is a vowel')
-    else :
-        print(f'The letter {letter} is a consonant')
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    if letter.isalpha():
+        if letter in vowels:
+            print(f'The letter {letter} is a vowel')
+        else :
+            print(f'The letter {letter} is a consonant')
+    else:
+        print('This is not a alphameric character')
 
 # Call the function
 # check_letter()
@@ -144,17 +145,57 @@ def weather_advice():
 # - Ensure to validate input formats and handle unexpected inputs gracefully.
 
 def determine_season():
-    winter = ['dec', 'jan', 'feb', 'mar']
+    months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    winter = ['dec','jan', 'feb', 'mar']
     spring = ['mar', 'apr', 'may', 'jun']
     summer = ['jun', 'jul', 'aug', 'sep']
     fall = ['sep', 'oct', 'nov', 'dec']
     season = ''
     
-    month = input('Enter the month of the year as 3 characters:')
-    day = input('Enter the day of the month:')
-    
-    print(f'{month} {day} is in {season}')
-    return
+    user_month = input('Enter the month of the year as 3 characters:')
+    if len(user_month) != 3:
+        return print('For month, your input needs to be 3 characters long')
+    elif user_month.lower() not in months:
+        return print('The month you enter does not exist')
+
+    user_day = input('Enter the day of the month:')
+    try:
+        day = int(user_day)
+    except ValueError:
+        return print(f'"{user_day}" is not a valid number')
+    if day > 31:
+        return print('The number for day is too high')
+
+    if user_month in winter:
+        if user_month == 'dec' and day < 21:
+            season = 'fall'
+        elif user_month == 'mar' and day > 19:
+            season = 'spring'
+        else:
+            season = 'winter'
+    elif user_month in spring:
+        if user_month == 'mar' and day < 20:
+            season = 'winter'
+        elif user_month == 'jun' and day > 20:
+            season = 'summer'
+        else:
+            season = 'spring'
+    elif user_month in summer:
+        if user_month == 'jun' and day < 21:
+            season = 'spring'
+        elif user_month == 'sep' and day > 21:
+            season = 'fall'
+        else:
+            season = 'summer'
+    elif user_month in fall:
+        if user_month == 'sep' and day < 22:
+            season = 'summer'
+        elif user_month == 'dec' and day > 20:
+            season = 'winter'
+        else:
+            season = 'fall'
+
+    print(f'{user_month.lower().capitalize()} {user_day} is in {season.capitalize()}')
 
 # Call the function
 determine_season()
